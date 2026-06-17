@@ -1,0 +1,266 @@
+---
+// src/components/Globe.astro
+// No props needed — drop <Globe /> anywhere in your page
+---
+
+<div class="globe-section" id="globeWrap">
+  <canvas id="globe"></canvas>
+  <div id="globe-loading">Loading globe…</div>
+</div>
+<div class="globe-hint" id="globeHint">Hover to spin faster · Drag to rotate</div>
+
+<style>
+  .globe-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    user-select: none;
+    width: 580px;
+    height: 580px;
+    max-width: 100%;
+  }
+  .globe-section:active { cursor: grabbing; }
+
+  #globe { display: block; }
+
+  #globe-loading {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: #8a8478;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .globe-hint {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #b0a898;
+    text-align: center;
+    margin-top: 8px;
+    transition: opacity 0.5s;
+  }
+</style>
+
+<script>
+  // Load D3 and TopoJSON from CDN then initialise
+  async function loadScripts() {
+    await Promise.all([
+      loadScript('https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js'),
+      loadScript('https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js'),
+    ]);
+    initGlobe();
+  }
+
+  function loadScript(src: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector(`script[src="${src}"]`)) return resolve();
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => resolve();
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  function initGlobe() {
+    const d3       = (window as any).d3;
+    const topojson = (window as any).topojson;
+
+    const SIZE   = 580;
+    const DPR    = Math.min(window.devicePixelRatio || 1, 2);
+    const canvas = document.getElementById('globe') as HTMLCanvasElement;
+    const wrap   = document.getElementById('globeWrap') as HTMLElement;
+    const hint   = document.getElementById('globeHint') as HTMLElement;
+    const loadEl = document.getElementById('globe-loading') as HTMLElement;
+    const ctx    = canvas.getContext('2d')!;
+
+    canvas.width        = SIZE * DPR;
+    canvas.height       = SIZE * DPR;
+    canvas.style.width  = SIZE + 'px';
+    canvas.style.height = SIZE + 'px';
+    ctx.scale(DPR, DPR);
+
+    // ── Palette ────────────────────────────────────────────
+    const C = {
+      ocean:     '#dedad2',
+      land:      '#ccc8be',
+      coastline: '#7d7870',
+      graticule: 'rgba(120,114,104,0.28)',
+      dot:       '#4a4640',
+      globeRing: 'rgba(118,112,102,0.35)',
+      accent:    '#c4923a',
+    };
+
+    // ── Projection ─────────────────────────────────────────
+    const R = SIZE / 2 - 8;
+    const projection = d3.geoOrthographic()
+      .scale(R)
+      .translate([SIZE / 2, SIZE / 2])
+      .clipAngle(90)
+      .precision(0.3);
+
+    const geoPath   = d3.geoPath(projection, ctx);
+    const graticule = d3.geoGraticule().step([15, 15])();
+    const sphere    = { type: 'Sphere' };
+
+    // ── Rotation state ─────────────────────────────────────
+    let phi = -15, lam = 15, tick = 0;
+    const BASE_SPEED = 0.10, HOVER_SPEED = 0.55;
+    let currentSpeed = BASE_SPEED;
+    let isHovered = false, isDragging = false;
+    let lastX = 0, lastY = 0, dragVelX = 0;
+
+    wrap.addEventListener('mouseenter', () => { isHovered = true;  hint.style.opacity = '0'; });
+    wrap.addEventListener('mouseleave', () => { isHovered = false; hint.style.opacity = '1'; });
+    wrap.addEventListener('mousedown', e => {
+      isDragging = true; lastX = e.clientX; lastY = e.clientY; dragVelX = 0;
+    });
+    window.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      dragVelX = dx * 0.35;
+      phi += dragVelX;
+      lam -= dy * 0.35;
+      lam  = Math.max(-70, Math.min(70, lam));
+      lastX = e.clientX; lastY = e.clientY;
+    });
+    window.addEventListener('mouseup', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      currentSpeed = dragVelX;
+    });
+
+    // ── Asymmetric wobble ──────────────────────────────────
+    function getRotation() {
+      const wobLat  = Math.sin(tick * 0.009) * 7 + Math.sin(tick * 0.017) * 3;
+      const wobRoll = Math.sin(tick * 0.006) * 2.5 + Math.sin(tick * 0.021) * 1;
+      return [phi, lam + wobLat, wobRoll];
+    }
+
+    // ── Scatter dots ───────────────────────────────────────
+    let dots: Array<{ lon: number; lat: number; r: number }> = [];
+
+    function buildDots(landFeature: any, count = 2200) {
+      const out = [];
+      let attempts = 0;
+      while (out.length < count && attempts < count * 15) {
+        attempts++;
+        const lat = (Math.random() - 0.5) * 150;
+        const lon = (Math.random() - 0.5) * 360;
+        if (d3.geoContains(landFeature, [lon, lat])) {
+          out.push({ lon, lat, r: Math.random() * 1.2 + 0.6 });
+        }
+      }
+      return out;
+    }
+
+    // ── World data ─────────────────────────────────────────
+    let worldReady = false;
+    let LAND: any, BORDERS: any;
+
+    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+      .then(r => r.json())
+      .then(world => {
+        const landFeature = topojson.feature(world, world.objects.land);
+        LAND    = landFeature;
+        BORDERS = topojson.mesh(world, world.objects.countries, (a: any, b: any) => a !== b);
+        dots    = buildDots(landFeature);
+        worldReady = true;
+        loadEl.style.display = 'none';
+        requestAnimationFrame(render);
+      })
+      .catch(() => { loadEl.textContent = '⚠ Could not load map data'; });
+
+    // ── Render loop ────────────────────────────────────────
+    const SYD = [151.2093, -33.8688];
+
+    function render() {
+      tick++;
+
+      if (!isDragging) {
+        const target = isHovered ? HOVER_SPEED : BASE_SPEED;
+        if (!isHovered && Math.abs(currentSpeed) > BASE_SPEED + 0.01) {
+          currentSpeed *= 0.94;
+        } else {
+          currentSpeed += (target - currentSpeed) * 0.07;
+        }
+        phi += currentSpeed;
+        projection.rotate(getRotation());
+      } else {
+        projection.rotate([phi, lam, 0]);
+      }
+
+      ctx.clearRect(0, 0, SIZE, SIZE);
+
+      // Ocean
+      ctx.beginPath(); geoPath(sphere);
+      ctx.fillStyle = C.ocean; ctx.fill();
+
+      if (worldReady) {
+        // Land fill
+        ctx.beginPath(); geoPath(LAND);
+        ctx.fillStyle = C.land; ctx.fill();
+
+        // Graticule
+        ctx.beginPath(); geoPath(graticule);
+        ctx.strokeStyle = C.graticule; ctx.lineWidth = 0.5; ctx.stroke();
+
+        // Borders
+        ctx.beginPath(); geoPath(BORDERS);
+        ctx.strokeStyle = C.coastline; ctx.lineWidth = 0.4;
+        ctx.globalAlpha = 0.5; ctx.stroke(); ctx.globalAlpha = 1;
+
+        // Coastlines
+        ctx.beginPath(); geoPath(LAND);
+        ctx.strokeStyle = C.coastline; ctx.lineWidth = 0.7; ctx.stroke();
+
+        // Scatter dots
+        const centre = projection.invert([SIZE / 2, SIZE / 2]);
+        dots.forEach(({ lon, lat, r }) => {
+          if (d3.geoDistance([lon, lat], centre) >= Math.PI / 2 - 0.01) return;
+          const p = projection([lon, lat]);
+          if (!p) return;
+          ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, Math.PI * 2);
+          ctx.fillStyle = C.dot; ctx.globalAlpha = 0.55; ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+      }
+
+      // Globe ring
+      ctx.beginPath(); geoPath(sphere);
+      ctx.strokeStyle = C.globeRing; ctx.lineWidth = 1; ctx.stroke();
+
+      // Sydney marker
+      const centre2 = projection.invert([SIZE / 2, SIZE / 2]);
+      if (d3.geoDistance(SYD, centre2) < Math.PI / 2 - 0.05) {
+        const sp = projection(SYD);
+        if (sp) {
+          const pulse = (Math.sin(tick * 0.08) + 1) / 2;
+          ctx.save();
+          ctx.globalAlpha = (1 - pulse) * 0.7;
+          ctx.beginPath(); ctx.arc(sp[0], sp[1], 5 + pulse * 10, 0, Math.PI * 2);
+          ctx.strokeStyle = C.accent; ctx.lineWidth = 1.2; ctx.stroke();
+          ctx.restore();
+          ctx.save();
+          ctx.shadowColor = C.accent; ctx.shadowBlur = 6;
+          ctx.fillStyle = C.accent;
+          ctx.beginPath(); ctx.arc(sp[0], sp[1], 3, 0, Math.PI * 2); ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      requestAnimationFrame(render);
+    }
+  }
+
+  loadScripts();
+</script>

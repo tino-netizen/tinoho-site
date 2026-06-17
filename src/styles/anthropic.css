@@ -318,6 +318,7 @@ button { font-family: inherit; }
   position: relative;
   z-index: 1;
   text-wrap: balance;
+  pointer-events: none;
 }
 .an-feature-sub {
   font-family: var(--serif);     /* paragraph-text */

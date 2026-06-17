@@ -7,7 +7,6 @@
   <canvas id="globe"></canvas>
   <div id="globe-loading">Loading globe…</div>
 </div>
-<div class="globe-hint" id="globeHint">Hover to spin faster · Drag to rotate</div>
 
 <style>
   .globe-section {
@@ -37,16 +36,6 @@
     pointer-events: none;
   }
 
-  .globe-hint {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #b0a898;
-    text-align: center;
-    margin-top: 8px;
-    transition: opacity 0.5s;
-  }
 </style>
 
 <script>
@@ -78,7 +67,7 @@
     const DPR    = Math.min(window.devicePixelRatio || 1, 2);
     const canvas = document.getElementById('globe') as HTMLCanvasElement;
     const wrap   = document.getElementById('globeWrap') as HTMLElement;
-    const hint   = document.getElementById('globeHint') as HTMLElement;
+
     const loadEl = document.getElementById('globe-loading') as HTMLElement;
     const ctx    = canvas.getContext('2d')!;
 
@@ -118,8 +107,8 @@
     let isHovered = false, isDragging = false;
     let lastX = 0, lastY = 0, dragVelX = 0;
 
-    wrap.addEventListener('mouseenter', () => { isHovered = true;  hint.style.opacity = '0'; });
-    wrap.addEventListener('mouseleave', () => { isHovered = false; hint.style.opacity = '1'; });
+    wrap.addEventListener('mouseenter', () => { isHovered = true; });
+    wrap.addEventListener('mouseleave', () => { isHovered = false; });
     wrap.addEventListener('mousedown', e => {
       isDragging = true; lastX = e.clientX; lastY = e.clientY; dragVelX = 0;
     });

@@ -3,24 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import '../styles/anthropic.css';
 import Globe from '../components/Globe.astro';
 
-const stats = [
-  {
-    num: '50–55% CAGR',
-    period: 'over 10 years',
-    desc: 'Core revenue metrics sustained over a decade at OFX as former Head of APAC Sales leading a team of 30 staff.',
-  },
-  {
-    num: 'MVP < 6 mths',
-    period: 'speed to market',
-    desc: 'Launched from concept to MVP in the US market with a global bank and listed manufacturing company as former CRO for an ESG SaaS platform.',
-  },
-  {
-    num: '$460m IPO',
-    period: 'ASX listing 2013',
-    desc: 'Early at OFX, built and led the APAC sales business through to its 2013 ASX listing — a ~$460m IPO at 300+ staff.',
-  },
-];
-
 const capabilities = [
   { n: '01', title: 'Strategy', desc: 'Commercial strategy, GTM motion selection.' },
   { n: '02', title: 'GTM Execution', desc: 'Go-to-market execution across sales-led, product-led, partnership-led, marketing-led, and event-led motions.' },
@@ -198,27 +180,6 @@ const footerCols = [
             Senior commercial leader with 20+ years running SaaS and technology enabled businesses between $3m and $50m ARR across APAC, from VC-backed early stage through to an ASX listing.
           </p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- RESULTS THAT MOVE THE NEEDLE (using the release card layout) -->
-  <section class="an-releases" id="results">
-    <div class="an-container">
-      <div class="an-section-eyebrow">Results that move the needle</div>
-      <div class="an-releases-grid an-releases-grid--4">
-        {stats.map((s) => (
-          <article class="an-release-card">
-            <h3 class="an-release-title">{s.num}</h3>
-            <p class="an-release-desc">{s.desc}</p>
-            <div class="an-release-meta">
-              <div class="an-release-meta-row">
-                <span class="an-release-meta-label">Period</span>
-                <span class="an-release-meta-value">{s.period}</span>
-              </div>
-            </div>
-          </article>
-        ))}
       </div>
     </div>
   </section>

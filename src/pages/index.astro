@@ -273,11 +273,11 @@ const footerCols = [
             </tr>
           </thead>
           <tbody>
-            {comparison.map((row) => (
+            {comparison.map((row, i) => (
               <tr>
                 <td>{row.area}</td>
                 <td class="an-col-other an-col-cross"><span class="an-cmp-x">✕</span></td>
-                <td class="an-col-tino"><span class="an-cmp-check">✓</span> {row.tino}</td>
+                <td class="an-col-tino"><span class="an-cmp-check" style={`animation-delay:${i * 0.3}s`}>✓</span> {row.tino}</td>
               </tr>
             ))}
           </tbody>

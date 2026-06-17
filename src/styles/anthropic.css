@@ -693,10 +693,16 @@ button { font-family: inherit; }
   color: var(--cloud-light);
   font-style: normal;
 }
+@keyframes tick-cascade {
+  0%, 40%   { opacity: 1; color: var(--accent); }
+  50%       { opacity: 0.15; color: var(--accent); }
+  65%, 100% { opacity: 1; color: var(--accent); }
+}
 .an-cmp-check {
   color: var(--accent);
   font-size: 15px;
   margin-right: 4px;
+  animation: tick-cascade 2.8s ease-in-out infinite;
 }
 .an-col-tino {
   background: var(--slate-dark);

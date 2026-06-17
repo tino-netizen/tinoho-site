@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Fragment+Mono&display=swap');
+
+:root {
+  --cream: #e8e6e0;
+  --cream-2: #d4d2cc;
+  --ink: #0a0a0a;
+  --ink-2: #1a1a1a;
+  --white: #ffffff;
+  --muted: #8a8a8a;
+  /* roko-g uses Oracle (Klim) — Inter is the closest free Google Font */
+  --oracle: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'Fragment Mono', ui-monospace, 'JetBrains Mono', monospace;
+  --serif: var(--oracle); /* legacy alias */
+  --sans: var(--oracle);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--oracle);
+  font-weight: 400;
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+.alt-container { padding-inline: clamp(20px, 4vw, 56px); }
+
+/* NAV */
+.alt-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--cream);
+  border-bottom: 1px solid var(--ink);
+  padding: 14px 0;
+}
+.alt-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.alt-nav-logo {
+  font-weight: 500;
+}
+.alt-nav-links {
+  display: flex;
+  gap: 28px;
+}
+.alt-nav-links a { font-weight: 400; }
+.alt-nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* HERO */
+.alt-hero {
+  padding: clamp(56px, 10vw, 140px) 0 clamp(80px, 12vw, 180px);
+  background: var(--cream);
+}
+.alt-hero-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: clamp(32px, 6vw, 64px);
+  color: var(--ink);
+}
+.alt-hero-headline {
+  font-family: var(--oracle);
+  font-weight: 400;
+  font-size: clamp(32px, 5.4vw, 84px);
+  line-height: 1.0;
+  letter-spacing: -0.015em;
+  max-width: 1280px;
+  color: var(--ink);
+}
+.alt-hero-headline em {
+  font-style: normal;        /* roko-g doesn't italicize */
+}
+
+/* SECTION SCAFFOLD */
+.alt-section {
+  padding: clamp(48px, 8vw, 96px) 0;
+}
+.alt-section.dark {
+  background: var(--ink);
+  color: var(--cream);
+}
+.alt-section-head {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: clamp(32px, 5vw, 56px);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 12px;
+}
+.alt-section-head .alt-section-no { opacity: 0.5; }
+
+/* LISTS (clients, technologies, capabilities) */
+.alt-list {
+  display: flex;
+  flex-direction: column;
+}
+.alt-list-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: clamp(12px, 1.4vw, 20px) 0;
+  border-bottom: 1px solid currentColor;
+  font-family: var(--oracle);
+  font-size: clamp(20px, 2.6vw, 40px);
+  line-height: 1.0;
+  letter-spacing: -0.015em;
+  font-weight: 400;
+  gap: 24px;
+  transition: padding-left 0.2s ease;
+}
+.alt-list-item:hover {
+  padding-left: 12px;
+}
+.alt-list-item:first-child { border-top: 1px solid currentColor; }
+.alt-list-meta {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  flex-shrink: 0;
+  font-weight: 400;
+}
+
+/* CAPABILITIES — numbered prefix */
+.alt-cap-num {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  opacity: 0.5;
+  margin-right: 28px;
+  font-weight: 400;
+  flex-shrink: 0;
+  min-width: 36px;
+}
+
+/* TESTIMONIALS — editorial pull quotes */
+.alt-quotes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  padding-top: 16px;
+}
+.alt-quote {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.alt-quote-text {
+  font-family: var(--oracle);
+  font-size: clamp(18px, 1.8vw, 26px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-style: normal;
+  font-weight: 400;
+}
+.alt-quote-attr {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+  padding-top: 16px;
+  border-top: 1px solid currentColor;
+}
+.alt-quote-attr strong { font-weight: 500; opacity: 1; }
+
+/* ABOUT / CONTACT — body text block */
+.alt-body-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(24px, 4vw, 64px);
+  font-family: var(--oracle);
+  font-size: clamp(16px, 1.4vw, 22px);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+.alt-body-grid p + p { margin-top: 0; }
+.alt-body-grid a { border-bottom: 1px solid currentColor; }
+
+.alt-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  font-family: var(--mono);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.alt-contact-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 16px;
+  gap: 24px;
+}
+.alt-contact-row .alt-contact-label { opacity: 0.5; }
+.alt-contact-row .alt-contact-value {
+  font-family: var(--oracle);
+  font-size: clamp(16px, 1.6vw, 22px);
+  letter-spacing: -0.015em;
+  text-transform: none;
+  font-weight: 400;
+  line-height: 1.0;
+}
+
+/* FOOTER */
+.alt-footer {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 24px 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.alt-footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* RESPONSIVE */
+@media (min-width: 768px) {
+  .alt-quotes { grid-template-columns: repeat(2, 1fr); }
+  .alt-quote { grid-template-columns: 1fr; }
+  .alt-contact-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .alt-contact-grid { grid-template-columns: repeat(4, 1fr); }
+}

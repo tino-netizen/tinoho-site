@@ -1,0 +1,291 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+
+const capabilities = [
+  { n: '01', title: 'Strategy', desc: 'Commercial strategy, GTM motion selection.' },
+  { n: '02', title: 'GTM Execution', desc: 'Go-to-market execution across sales-led, product-led, partnership-led, marketing-led, and event-led motions.' },
+  { n: '03', title: 'RevOps', desc: 'Pipeline architecture, tech stack optimisation, and full-funnel revenue engine design.' },
+  { n: '04', title: 'Marketing', desc: 'Demand generation, ABM, messaging framework, and campaign execution.' },
+  { n: '05', title: 'Sales', desc: 'Pipeline development and high-performance sales team building.' },
+  { n: '06', title: 'Brand', desc: 'Segmentation, targeting, positioning, for B2B audiences.' },
+  { n: '07', title: 'Board Advisory & Consulting', desc: 'Strategic counsel for founders on revenue, growth, and investor readiness.' },
+  { n: '08', title: 'AI & Automation', desc: 'AI-powered systems, n8n workflows, SDR automation, and revenue tech stack integration.' },
+];
+
+const comparison = [
+  { area: 'Track record in high-growth environments', tino: '~55% CAGR × 10yrs sustained performance' },
+  { area: 'Serial founder & operator', tino: 'Founded multiple businesses' },
+  { area: 'ASX-listed & VC-backed company experience', tino: 'From VC-backed brands to public markets' },
+  { area: 'Advisor & board member to founder-led businesses', tino: 'Strategic counsel at board level' },
+  { area: 'Strategy through to execution', tino: 'Not just decks — real outcomes' },
+  { area: 'AI-first mindset', tino: 'Builds with modern AI tools (n8n, Claude, etc.)' },
+  { area: 'GTM stack experience', tino: 'Modern Tools (Hubspot, Zoominfo, Apollo, etc.)' },
+];
+
+const testimonials = [
+  {
+    initials: 'MG',
+    name: 'Michael Go',
+    role: 'Chair & Non-Executive Director',
+    quote: 'Tino is a well-rounded leader with a keen ability to navigate go-to-market complexities and translate sophisticated client needs into tangible, results-oriented outcomes. He consistently delivered innovative solutions, particularly in the areas of ESG and AI. I recommend Tino without reservation as an ethical and impactful professional.',
+  },
+  {
+    initials: 'JP',
+    name: 'Jeff Parker',
+    role: 'CEO Paymentology | Former CEO OzForex',
+    quote: 'Tino was a great asset to OzForex and will be missed. He spent 10 years at OzForex playing an important part in the growth of the business from a small start up to an ASX listed, market leading international payments specialist. Tino demonstrates a great energy and enthusiasm which enables him to build and develop strong relationships both internally and externally.',
+  },
+  {
+    initials: 'JM',
+    name: 'Julie Manios',
+    role: 'Proptech Executive Director',
+    quote: "Tino has demonstrated a remarkable ability to devise growth strategies and guide marketing and sales endeavours. If you're seeking a strategic independent advisor who excels in fostering growth, propelling marketing and sales efforts, and instilling a culture of data-driven and collaborative thinking, Tino is an excellent choice.",
+  },
+  {
+    initials: 'CM',
+    name: 'Christopher Minehan',
+    role: 'Former OFX CMO, Founder ClickedOn',
+    quote: 'I had the pleasure of working with Tino for five years at OFX (formerly OzForex). He is diligent, productive and responsive. Tino set up the BDM function at OFX and as part of the leadership team helped to deliver consistent year on year growth.',
+  },
+  {
+    initials: 'TB',
+    name: 'Tim Beard',
+    role: 'Chief Commercial Officer, Silverbullet',
+    quote: 'I enjoyed working with Tino who was professional and diligent throughout the engagement. He exhibits genuine passion for his work which gave me the confidence to engage him and his team. During the project he consistently listened to our requirements and tailored the outputs accordingly. I would highly recommend working with him.',
+  },
+  {
+    initials: 'BZ',
+    name: 'Ben Zylbersztajn',
+    role: 'Senior BDM, Safetrac',
+    quote: 'Tino served as our CRO and occasionally stepped in as acting Sales Manager during his tenure. His leadership was exceptional, showing a strong commitment not only to increasing the company\'s revenue but also to fostering my professional growth within the business and beyond.',
+  },
+];
+
+const logos = [
+  { src: 'https://tino-ho.github.io/site-scripts/OFX_idITLNbLii_0.png', alt: 'OFX' },
+  { src: 'https://tino-ho.github.io/site-scripts/id4Q_YkH-m_logos%20(1).png', alt: 'Safetrac' },
+  { src: 'https://tino-ho.github.io/site-scripts/Aware_Super_idMKzlcBsE_0.png', alt: 'Aware Super' },
+  { src: "https://tino-ho.github.io/site-scripts/St-_James's_Place_Asia___Middle_East_idg0XeklVp_0.png", alt: 'St James Place' },
+  { src: 'https://tino-ho.github.io/site-scripts/InterSystems_idZ7gLFrLi_0.png', alt: 'InterSystems' },
+  { src: 'https://tino-ho.github.io/site-scripts/Tyro_idi6NsN6dj_0.svg', alt: 'Tyro' },
+];
+
+const stats = [
+  { num: '50–55% CAGR over 10 yrs', desc: 'Core revenue metrics sustained over a decade at OFX as former Head of APAC Sales leading a team of 30 staff.' },
+  { num: 'MVP < 6 mths', desc: 'Launched from concept to MVP in the US market with a global bank and listed manufacturing company as former CRO for an ESG SaaS platform.' },
+  { num: 'NRR uplift < 12 mths', desc: 'High single-digit % uplift in net revenue retention in under 12 months for a leading e-learning SaaS platform.' },
+  { num: '$460m IPO', desc: 'Early employee and led APAC sales at OFX when it listed on the ASX in 2013 with 300+ staff.' },
+];
+---
+
+<Layout>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-logo">tinoho</a>
+        <div class="nav-links">
+          <a href="#services">Capabilities</a>
+          <a href="#compare">Why Tino</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="mailto:tino@tinoho.com" class="nav-cta">Chat with Tino's assistant</a>
+        </div>
+        <button class="nav-ham" id="hamBtn" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-mobile" id="mobileMenu" aria-hidden="true">
+    <a href="#services">Capabilities</a>
+    <a href="#compare">Why Tino</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="mailto:tino@tinoho.com">Chat with Tino's assistant</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-chips">
+        <span class="chip"><span class="chip-dot"></span>Promise</span>
+        <span class="chip"><span class="chip-dot green"></span>Signal</span>
+        <span class="chip"><span class="chip-dot dark"></span>Live chat</span>
+      </div>
+      <h1>Your next CRO.</h1>
+      <p class="hero-sub">
+        I'm a hands-on revenue leader and GTM operator focused on scaling B2B businesses with AI-powered systems.
+      </p>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats" id="results">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-h2">Results that move the needle.</h2>
+        <p class="sec-sub">Track record building and scaling SME and mid-market businesses across SaaS, fintech and data platforms.</p>
+      </div>
+      <div class="stats-grid">
+        {stats.map((s, i) => (
+          <div class="stat-card">
+            <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              {i === 0 && <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></>}
+              {i === 1 && <><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></>}
+              {i === 2 && <><path d="M3 12h4l3-9 4 18 3-9h4"/></>}
+              {i === 3 && <><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-7h6v7"/></>}
+            </svg>
+            <div class="stat-num">{s.num}</div>
+            <p class="stat-desc">{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <section class="capabilities" id="services">
+    <div class="container">
+      <div class="cap-wrap">
+        <div class="cap-left">
+          <h2 class="sec-h2">One full revenue stack. Eight capabilities.</h2>
+          <p class="sec-sub">Each capability is a component of one integrated revenue system — designed to work together, built to scale.</p>
+          <div class="cap-cta-card">
+            <h3>Want to know more?</h3>
+            <a href="mailto:tino@tinoho.com" class="btn btn-blue">Chat now</a>
+          </div>
+        </div>
+        <div class="cap-grid">
+          {capabilities.map((cap) => (
+            <div class="cap-card">
+              <div class="cap-n">{cap.n}</div>
+              <div class="cap-t">{cap.title}</div>
+              <p class="cap-d">{cap.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="comparison" id="compare">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-h2">What makes Tino different?</h2>
+        <p class="sec-sub">A unique combination across several areas.</p>
+      </div>
+      <div class="cmp-wrap">
+        <table class="cmp-table">
+          <thead>
+            <tr>
+              <th style="width: 40%">Area</th>
+              <th style="width: 25%; text-align: center;">Others</th>
+              <th class="col-tino" style="width: 35%">Tino Ho</th>
+            </tr>
+          </thead>
+          <tbody>
+            {comparison.map((row) => (
+              <tr>
+                <td>{row.area}</td>
+                <td class="col-other"><span class="cmp-x">✕</span></td>
+                <td class="col-tino">{row.tino}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGOS -->
+  <section class="logos">
+    <div class="container">
+      <p class="logos-label">Some of the companies Tino has worked for and customers served</p>
+      <div class="logos-row">
+        {logos.map((logo) => (
+          <img src={logo.src} alt={logo.alt} loading="lazy" onerror="this.style.display='none'" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-h2">What other people say about Tino.</h2>
+        <p class="sec-sub">Feedback from founders, boards, and operators.</p>
+      </div>
+      <div class="testi-grid">
+        {testimonials.map((t) => (
+          <div class="testi-card">
+            <div class="testi-head">
+              <span class="testi-quote-icon">&ldquo;</span>
+              <span class="testi-stars" aria-label="5 out of 5 stars">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              </span>
+            </div>
+            <p class="testi-q">{t.quote}</p>
+            <div class="testi-auth">
+              <div class="testi-avatar">{t.initials}</div>
+              <div>
+                <div class="testi-name">{t.name}</div>
+                <div class="testi-role">{t.role}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <h2>Ready to chat with Tino?</h2>
+        <p>Senior-level thinking. Fraction of the cost. No hiring risk.</p>
+        <a href="mailto:tino@tinoho.com" class="btn btn-green">Chat with Tino's assistant</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">tinoho</span>
+        <div class="footer-links">
+          <a href="#services">Capabilities</a>
+          <a href="#compare">Why Tino</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="mailto:tino@tinoho.com">Contact</a>
+        </div>
+        <span class="footer-copy">© 2026 Tino Ho. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const hamBtn = document.getElementById('hamBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamBtn?.addEventListener('click', () => {
+      const isOpen = mobileMenu?.classList.toggle('is-open');
+      hamBtn.setAttribute('aria-expanded', String(isOpen));
+      mobileMenu?.setAttribute('aria-hidden', String(!isOpen));
+    });
+
+    mobileMenu?.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileMenu.classList.remove('is-open');
+        hamBtn?.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      });
+    });
+  </script>
+
+</Layout>

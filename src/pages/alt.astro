@@ -1,0 +1,205 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/alt.css';
+
+const clients = [
+  { name: 'OFX', meta: '2003 — 2014' },
+  { name: 'Safetrac', meta: 'CRO' },
+  { name: 'Aware Super', meta: 'Advisory' },
+  { name: "St James's Place", meta: 'GTM' },
+  { name: 'InterSystems', meta: 'Strategy' },
+  { name: 'Tyro', meta: 'Advisory' },
+  { name: 'Hemisphere Digital', meta: 'Founder' },
+  { name: 'Nxt7a', meta: 'Founder' },
+  { name: 'North Avon Capital', meta: 'Advisory' },
+];
+
+const capabilities = [
+  { n: '01', title: 'Strategy' },
+  { n: '02', title: 'GTM Execution' },
+  { n: '03', title: 'RevOps' },
+  { n: '04', title: 'Marketing' },
+  { n: '05', title: 'Sales' },
+  { n: '06', title: 'Brand' },
+  { n: '07', title: 'Board Advisory' },
+  { n: '08', title: 'AI & Automation' },
+];
+
+const technologies = [
+  'HubSpot', 'Apollo', 'Claude', 'n8n', 'Expandi',
+  'ZoomInfo', 'Smartlead', 'Linear', 'Notion', 'Make',
+];
+
+const quotes = [
+  {
+    text: '"Tino is a well-rounded leader with a keen ability to navigate go-to-market complexities and translate sophisticated client needs into tangible, results-oriented outcomes."',
+    name: 'Michael Go',
+    role: 'Chair & Non-Executive Director',
+  },
+  {
+    text: '"He spent 10 years at OzForex playing an important part in the growth of the business from a small start-up to an ASX listed, market leading international payments specialist."',
+    name: 'Jeff Parker',
+    role: 'CEO Paymentology · Former CEO OzForex',
+  },
+  {
+    text: '"If you\'re seeking a strategic independent advisor who excels in fostering growth, propelling marketing and sales efforts, and instilling a culture of data-driven thinking — Tino is an excellent choice."',
+    name: 'Julie Manios',
+    role: 'Proptech Executive Director',
+  },
+  {
+    text: '"His leadership was exceptional, showing a strong commitment not only to increasing the company\'s revenue but also to fostering my professional growth within the business and beyond."',
+    name: 'Ben Zylbersztajn',
+    role: 'Senior BDM, Safetrac',
+  },
+];
+---
+
+<Layout title="Tino Ho — Fractional CRO">
+
+  <!-- NAV -->
+  <nav class="alt-nav">
+    <div class="alt-container">
+      <div class="alt-nav-inner">
+        <span class="alt-nav-logo">Tino Ho ©</span>
+        <div class="alt-nav-links">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="alt-hero">
+    <div class="alt-container">
+      <div class="alt-hero-label">Fractional CRO &amp; CMO — Sydney, AU</div>
+      <h1 class="alt-hero-headline">
+        Tino is a <em>fractional CRO</em> who builds revenue engines for ambitious B2B founders — strategy, GTM, and AI-powered systems that <em>scale</em>.
+      </h1>
+    </div>
+  </section>
+
+  <!-- SELECTED CLIENTS -->
+  <section class="alt-section dark" id="work">
+    <div class="alt-container">
+      <div class="alt-section-head">
+        <span>Selected Clients</span>
+        <span class="alt-section-no">[ 01 / 05 ]</span>
+      </div>
+      <ul class="alt-list">
+        {clients.map((c) => (
+          <li class="alt-list-item">
+            <span>{c.name}</span>
+            <span class="alt-list-meta">{c.meta}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <section class="alt-section" id="capabilities">
+    <div class="alt-container">
+      <div class="alt-section-head">
+        <span>Capabilities</span>
+        <span class="alt-section-no">[ 02 / 05 ]</span>
+      </div>
+      <ul class="alt-list">
+        {capabilities.map((cap) => (
+          <li class="alt-list-item">
+            <span style="display: inline-flex; align-items: baseline;">
+              <span class="alt-cap-num">{cap.n}</span>
+              <span>{cap.title}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- TECHNOLOGIES -->
+  <section class="alt-section dark" id="tech">
+    <div class="alt-container">
+      <div class="alt-section-head">
+        <span>Technologies</span>
+        <span class="alt-section-no">[ 03 / 05 ]</span>
+      </div>
+      <ul class="alt-list">
+        {technologies.map((t) => (
+          <li class="alt-list-item">
+            <span>{t}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="alt-section" id="press">
+    <div class="alt-container">
+      <div class="alt-section-head">
+        <span>Selected Press</span>
+        <span class="alt-section-no">[ 04 / 05 ]</span>
+      </div>
+      <div class="alt-quotes">
+        {quotes.map((q) => (
+          <article class="alt-quote">
+            <p class="alt-quote-text">{q.text}</p>
+            <div class="alt-quote-attr">
+              <strong>{q.name}</strong> — {q.role}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / CONTACT -->
+  <section class="alt-section dark" id="about">
+    <div class="alt-container">
+      <div class="alt-section-head">
+        <span>About &amp; Contact</span>
+        <span class="alt-section-no">[ 05 / 05 ]</span>
+      </div>
+      <div class="alt-body-grid">
+        <p>
+          Tino Ho is a fractional Chief Revenue Officer based in Sydney. He's spent the last two decades building and scaling B2B revenue engines — from early employee at OFX (ASX:OFX) through its $460m IPO, to embedded CRO roles across SaaS, fintech, and ESG.
+        </p>
+        <p>
+          He works with a small number of founder-led businesses each year on commercial strategy, GTM execution, and AI-powered revenue systems. <a href="mailto:tino@tinoho.com">tino@tinoho.com</a>.
+        </p>
+      </div>
+      <div class="alt-contact-grid" id="contact" style="margin-top: clamp(48px, 6vw, 80px);">
+        <div class="alt-contact-row">
+          <span class="alt-contact-label">Email</span>
+          <a href="mailto:tino@tinoho.com" class="alt-contact-value">tino@tinoho.com</a>
+        </div>
+        <div class="alt-contact-row">
+          <span class="alt-contact-label">LinkedIn</span>
+          <a href="https://linkedin.com/in/tinoho" class="alt-contact-value">@tinoho</a>
+        </div>
+        <div class="alt-contact-row">
+          <span class="alt-contact-label">Studio</span>
+          <span class="alt-contact-value">Sydney, AU</span>
+        </div>
+        <div class="alt-contact-row">
+          <span class="alt-contact-label">Hours</span>
+          <span class="alt-contact-value">Mon — Fri</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="alt-footer">
+    <div class="alt-container">
+      <div class="alt-footer-inner">
+        <span>© 2026 Tino Ho</span>
+        <span>All rights reserved</span>
+        <span><a href="/">← Original site</a></span>
+      </div>
+    </div>
+  </footer>
+
+</Layout>

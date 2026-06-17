@@ -177,28 +177,26 @@ const footerCols = [
   </section>
 
   <!-- FEATURED PANEL -->
-  <section style="position:relative; overflow:hidden;">
+  <section>
     <div class="an-container">
       <div class="an-feature">
-        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:0;">
+        <div style="position:absolute; left:50%; top:44%; transform:translate(-50%,-38%); z-index:0; pointer-events:none;">
           <Globe />
         </div>
 
-        <div style="position:relative; z-index:1;">
-          <h2 class="an-feature-headline">I'm a hands-on revenue leader and GTM operator with an AI-first mindset.</h2>
+        <h2 class="an-feature-headline">I'm a hands-on revenue leader and GTM operator with an AI-first mindset.</h2>
 
-          <!-- Sector chip + carousel dots + bio blurb -->
-          <div class="an-feature-globe-italy">
-            <div class="an-feature-italy-dots" id="globe-dots">
-              {sectors.map((_, i) => (
-                <span class={i === 0 ? 'active' : ''}></span>
-              ))}
-            </div>
-            <div><span class="an-feature-italy-chip" id="globe-chip">{sectors[0]}</span></div>
-            <p class="an-feature-bio">
-              Senior commercial leader with 20+ years running SaaS and technology enabled businesses between $3m and $50m ARR across APAC, from VC-backed early stage through to an ASX listing.
-            </p>
+        <!-- Sector chip + carousel dots + bio blurb — pinned to bottom of box via CSS -->
+        <div class="an-feature-globe-italy">
+          <div class="an-feature-italy-dots" id="globe-dots">
+            {sectors.map((_, i) => (
+              <span class={i === 0 ? 'active' : ''}></span>
+            ))}
           </div>
+          <div><span class="an-feature-italy-chip" id="globe-chip">{sectors[0]}</span></div>
+          <p class="an-feature-bio">
+            Senior commercial leader with 20+ years running SaaS and technology enabled businesses between $3m and $50m ARR across APAC, from VC-backed early stage through to an ASX listing.
+          </p>
         </div>
       </div>
     </div>

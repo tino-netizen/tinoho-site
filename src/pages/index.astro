@@ -151,7 +151,7 @@ const footerCols = [
     <div class="an-container">
       <div class="an-hero-grid">
         <h1 class="an-hero-headline">
-          I lead and scale <span class="accent">B2B software</span> businesses.
+          I lead and scale <span class="accent" data-text="B2B software">B2B software</span> businesses.
         </h1>
         <div class="an-hero-side"></div>
       </div>
@@ -432,6 +432,83 @@ const footerCols = [
       // start on next tick so layout settles
       requestAnimationFrame(() => runLoop());
     }
+
+    /* ─────────── DOTTED ACCENT SVG ─────────── */
+    function buildAccentSVG() {
+      const span = document.querySelector('.an-hero-headline .accent') as HTMLElement | null;
+      if (!span) return;
+
+      const label = (span as HTMLElement & { dataset: { text?: string } }).dataset.text || 'B2B software';
+      span.querySelector('svg')?.remove();
+
+      const headline = span.closest('.an-hero-headline') as HTMLElement;
+      const cs = window.getComputedStyle(headline);
+      const fontSize   = parseFloat(cs.fontSize);
+      const fontFamily = cs.fontFamily;
+      const fontWeight = cs.fontWeight;
+      const accentColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--accent').trim() || '#c6613f';
+
+      // Measure text width using a hidden probe with the same font
+      const probe = document.createElement('span');
+      probe.style.cssText = `position:absolute;top:-9999px;left:-9999px;white-space:nowrap;` +
+        `visibility:hidden;font-family:${fontFamily};font-size:${fontSize}px;font-weight:${fontWeight};`;
+      probe.textContent = label;
+      document.body.appendChild(probe);
+      const tw = probe.getBoundingClientRect().width;
+      document.body.removeChild(probe);
+
+      const STEP = 5;   // dot grid pitch in px
+      const R    = 2.2; // dot radius in px
+      const pad  = STEP;
+      const svgW = Math.ceil(tw) + pad * 2;
+      const svgH = Math.ceil(fontSize);
+
+      const ns = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(ns, 'svg');
+      svg.setAttribute('width',   String(svgW));
+      svg.setAttribute('height',  String(svgH));
+      svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
+      svg.style.cssText = 'display:inline;vertical-align:baseline;overflow:visible;';
+      svg.setAttribute('aria-hidden', 'true');
+
+      const defs = document.createElementNS(ns, 'defs');
+      const pat  = document.createElementNS(ns, 'pattern');
+      pat.setAttribute('id',           'hero-dots-pat');
+      pat.setAttribute('x',            '0');
+      pat.setAttribute('y',            '0');
+      pat.setAttribute('width',        String(STEP));
+      pat.setAttribute('height',       String(STEP));
+      pat.setAttribute('patternUnits', 'userSpaceOnUse');
+      const circ = document.createElementNS(ns, 'circle');
+      circ.setAttribute('cx',   String(STEP / 2));
+      circ.setAttribute('cy',   String(STEP / 2));
+      circ.setAttribute('r',    String(R));
+      circ.setAttribute('fill', accentColor);
+      pat.appendChild(circ);
+      defs.appendChild(pat);
+      svg.appendChild(defs);
+
+      const txt = document.createElementNS(ns, 'text');
+      txt.setAttribute('x',           String(pad));
+      txt.setAttribute('y',           String(svgH));   // baseline at SVG bottom edge
+      txt.setAttribute('font-family', fontFamily);
+      txt.setAttribute('font-weight', fontWeight);
+      txt.setAttribute('font-size',   String(fontSize));
+      txt.setAttribute('fill',        'url(#hero-dots-pat)');
+      txt.textContent = label;
+      svg.appendChild(txt);
+
+      span.textContent = '';
+      span.appendChild(svg);
+    }
+
+    buildAccentSVG();
+    let _accentTimer: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', () => {
+      clearTimeout(_accentTimer);
+      _accentTimer = setTimeout(buildAccentSVG, 150);
+    });
 
     /* ─────────── MOBILE NAV ─────────── */
     const anHam = document.getElementById('anHamBtn');

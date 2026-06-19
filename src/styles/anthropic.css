@@ -207,13 +207,8 @@ button { font-family: inherit; }
 }
 .an-hero-headline .accent {
   color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  background-image: radial-gradient(circle, var(--accent) 46%, transparent 46%);
-  background-size: 5px 5px;
   font-style: normal;
   font-weight: inherit;
-  text-decoration: none;
 }
 .an-hero-side {
   /* u-paragraph-l on Anthropic */

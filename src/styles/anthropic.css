@@ -206,9 +206,12 @@ button { font-family: inherit; }
   text-wrap: balance;
 }
 .an-hero-headline .accent {
-  color: var(--accent);
+  color: inherit;
   font-style: normal;
   font-weight: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 2.5px;
+  text-underline-offset: 0.14em;
 }
 .an-hero-side {
   /* u-paragraph-l on Anthropic */

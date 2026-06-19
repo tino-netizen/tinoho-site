@@ -151,7 +151,7 @@ const footerCols = [
     <div class="an-container">
       <div class="an-hero-grid">
         <h1 class="an-hero-headline">
-          I lead and scale <span class="accent" data-text="B2B software">B2B software</span> businesses.
+          I lead and scale <span class="accent">B2B software</span> businesses.
         </h1>
         <div class="an-hero-side"></div>
       </div>
@@ -432,88 +432,6 @@ const footerCols = [
       // start on next tick so layout settles
       requestAnimationFrame(() => runLoop());
     }
-
-    /* ─────────── DOTTED ACCENT SVG ─────────── */
-    function buildAccentSVG() {
-      const span = document.querySelector('.an-hero-headline .accent') as HTMLElement | null;
-      if (!span) return;
-      const headline = span.closest<HTMLElement>('.an-hero-headline');
-      if (!headline) return;
-
-      const label = span.dataset.text || 'B2B software';
-      span.querySelector('svg')?.remove();
-
-      const cs         = window.getComputedStyle(headline);
-      const fontSize   = parseFloat(cs.fontSize);
-      const fontFamily = cs.fontFamily;
-      const fontWeight = cs.fontWeight;
-      const accentColor = getComputedStyle(document.documentElement)
-        .getPropertyValue('--accent').trim() || '#c6613f';
-
-      // Measure text width with correct fonts loaded
-      const probe = document.createElement('span');
-      probe.style.cssText = `position:absolute;top:-9999px;left:-9999px;white-space:nowrap;` +
-        `visibility:hidden;font-family:${fontFamily};font-size:${fontSize}px;font-weight:${fontWeight};`;
-      probe.textContent = label;
-      document.body.appendChild(probe);
-      const tw = probe.getBoundingClientRect().width;
-      document.body.removeChild(probe);
-      if (tw <= 0) return;
-
-      const STEP = 5;
-      const R    = 2.2;
-      const pad  = STEP * 2;
-      const svgW = Math.ceil(tw) + pad * 2;
-      const svgH = Math.ceil(fontSize * 1.15);  // extra headroom for descenders
-      const baseline = Math.round(fontSize * 0.82); // baseline position from SVG top
-
-      const ns = 'http://www.w3.org/2000/svg';
-      const svg = document.createElementNS(ns, 'svg');
-      svg.setAttribute('width',   String(svgW));
-      svg.setAttribute('height',  String(svgH));
-      svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
-      svg.setAttribute('aria-hidden', 'true');
-      // inline-block so the SVG has a real box; vertical-align nudges baseline into position
-      svg.style.cssText = `display:inline-block;vertical-align:${-Math.round(fontSize * 0.33)}px;overflow:visible;`;
-
-      const defs = document.createElementNS(ns, 'defs');
-      const pat  = document.createElementNS(ns, 'pattern');
-      pat.setAttribute('id',           'hero-dots-pat');
-      pat.setAttribute('x',            '0');
-      pat.setAttribute('y',            '0');
-      pat.setAttribute('width',        String(STEP));
-      pat.setAttribute('height',       String(STEP));
-      pat.setAttribute('patternUnits', 'userSpaceOnUse');
-      const circ = document.createElementNS(ns, 'circle');
-      circ.setAttribute('cx',   String(STEP / 2));
-      circ.setAttribute('cy',   String(STEP / 2));
-      circ.setAttribute('r',    String(R));
-      circ.setAttribute('fill', accentColor);
-      pat.appendChild(circ);
-      defs.appendChild(pat);
-      svg.appendChild(defs);
-
-      const txt = document.createElementNS(ns, 'text');
-      txt.setAttribute('x',           String(pad));
-      txt.setAttribute('y',           String(baseline));
-      txt.setAttribute('font-family', fontFamily);
-      txt.setAttribute('font-weight', fontWeight);
-      txt.setAttribute('font-size',   String(fontSize));
-      txt.setAttribute('fill',        'url(#hero-dots-pat)');
-      txt.textContent = label;
-      svg.appendChild(txt);
-
-      span.textContent = '';
-      span.appendChild(svg);
-    }
-
-    // Run after fonts are loaded so text-width measurement is accurate
-    document.fonts.ready.then(buildAccentSVG);
-    let _accentTimer: ReturnType<typeof setTimeout>;
-    window.addEventListener('resize', () => {
-      clearTimeout(_accentTimer);
-      _accentTimer = setTimeout(buildAccentSVG, 150);
-    });
 
     /* ─────────── MOBILE NAV ─────────── */
     const anHam = document.getElementById('anHamBtn');

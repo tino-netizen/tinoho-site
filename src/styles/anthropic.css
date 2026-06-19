@@ -210,7 +210,7 @@ button { font-family: inherit; }
   -webkit-background-clip: text;
   background-clip: text;
   background-image: radial-gradient(circle, var(--accent) 38%, transparent 38%);
-  background-size: 6px 6px;
+  background-size: 4px 4px;
   font-style: normal;
   font-weight: inherit;
   text-decoration: none;

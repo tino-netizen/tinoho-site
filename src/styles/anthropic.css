@@ -206,7 +206,7 @@ button { font-family: inherit; }
   text-wrap: balance;
 }
 .an-hero-headline .accent {
-  color: transparent;
+  color: var(--accent);
   font-style: normal;
   font-weight: inherit;
 }

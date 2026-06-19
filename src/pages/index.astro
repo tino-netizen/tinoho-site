@@ -437,19 +437,20 @@ const footerCols = [
     function buildAccentSVG() {
       const span = document.querySelector('.an-hero-headline .accent') as HTMLElement | null;
       if (!span) return;
+      const headline = span.closest<HTMLElement>('.an-hero-headline');
+      if (!headline) return;
 
-      const label = (span as HTMLElement & { dataset: { text?: string } }).dataset.text || 'B2B software';
+      const label = span.dataset.text || 'B2B software';
       span.querySelector('svg')?.remove();
 
-      const headline = span.closest('.an-hero-headline') as HTMLElement;
-      const cs = window.getComputedStyle(headline);
+      const cs         = window.getComputedStyle(headline);
       const fontSize   = parseFloat(cs.fontSize);
       const fontFamily = cs.fontFamily;
       const fontWeight = cs.fontWeight;
       const accentColor = getComputedStyle(document.documentElement)
         .getPropertyValue('--accent').trim() || '#c6613f';
 
-      // Measure text width using a hidden probe with the same font
+      // Measure text width with correct fonts loaded
       const probe = document.createElement('span');
       probe.style.cssText = `position:absolute;top:-9999px;left:-9999px;white-space:nowrap;` +
         `visibility:hidden;font-family:${fontFamily};font-size:${fontSize}px;font-weight:${fontWeight};`;
@@ -457,20 +458,23 @@ const footerCols = [
       document.body.appendChild(probe);
       const tw = probe.getBoundingClientRect().width;
       document.body.removeChild(probe);
+      if (tw <= 0) return;
 
-      const STEP = 5;   // dot grid pitch in px
-      const R    = 2.2; // dot radius in px
-      const pad  = STEP;
+      const STEP = 5;
+      const R    = 2.2;
+      const pad  = STEP * 2;
       const svgW = Math.ceil(tw) + pad * 2;
-      const svgH = Math.ceil(fontSize);
+      const svgH = Math.ceil(fontSize * 1.15);  // extra headroom for descenders
+      const baseline = Math.round(fontSize * 0.82); // baseline position from SVG top
 
       const ns = 'http://www.w3.org/2000/svg';
       const svg = document.createElementNS(ns, 'svg');
       svg.setAttribute('width',   String(svgW));
       svg.setAttribute('height',  String(svgH));
       svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
-      svg.style.cssText = 'display:inline;vertical-align:baseline;overflow:visible;';
       svg.setAttribute('aria-hidden', 'true');
+      // inline-block so the SVG has a real box; vertical-align nudges baseline into position
+      svg.style.cssText = `display:inline-block;vertical-align:${-Math.round(fontSize * 0.33)}px;overflow:visible;`;
 
       const defs = document.createElementNS(ns, 'defs');
       const pat  = document.createElementNS(ns, 'pattern');
@@ -491,7 +495,7 @@ const footerCols = [
 
       const txt = document.createElementNS(ns, 'text');
       txt.setAttribute('x',           String(pad));
-      txt.setAttribute('y',           String(svgH));   // baseline at SVG bottom edge
+      txt.setAttribute('y',           String(baseline));
       txt.setAttribute('font-family', fontFamily);
       txt.setAttribute('font-weight', fontWeight);
       txt.setAttribute('font-size',   String(fontSize));
@@ -503,7 +507,8 @@ const footerCols = [
       span.appendChild(svg);
     }
 
-    buildAccentSVG();
+    // Run after fonts are loaded so text-width measurement is accurate
+    document.fonts.ready.then(buildAccentSVG);
     let _accentTimer: ReturnType<typeof setTimeout>;
     window.addEventListener('resize', () => {
       clearTimeout(_accentTimer);

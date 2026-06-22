@@ -5,7 +5,7 @@ import Globe from '../components/Globe.astro';
 
 const capabilities = [
   { n: '01', title: 'Strategy', desc: 'Commercial strategy, GTM motion selection.' },
-  { n: '02', title: 'GTM Execution', desc: 'Go-to-market execution across sales-led, product-led, partnership-led, marketing-led, and event-led motions.' },
+  { n: '02', title: 'GTM Execution', desc: 'Go-to-market execution across sales-led and partner-led mid-market to enterprise motions.', cta: { label: 'Try now', href: '#contact' } },
   { n: '03', title: 'RevOps', desc: 'Pipeline architecture, tech stack optimisation, and full-funnel revenue engine design.' },
   { n: '04', title: 'Marketing', desc: 'Demand generation, ABM, messaging framework, and campaign execution.' },
   { n: '05', title: 'Sales', desc: 'Pipeline development and high-performance sales team building.' },
@@ -177,7 +177,7 @@ const footerCols = [
           </div>
           <div><span class="an-feature-italy-chip" id="globe-chip">{sectors[0]}</span></div>
           <p class="an-feature-bio">
-            20+ years running SaaS and technology enabled businesses between $3m and $50m ARR across APAC, from VC-backed early stage through to an ASX listing.
+            I bring a blend of founder instincts, scale-up grit and enterprise rigour to commercial leadership. I've built teams, opened markets, raised capital and scaled companies through high growth and rapid change.
           </p>
         </div>
       </div>
@@ -211,6 +211,7 @@ const footerCols = [
               <div class="an-cap-n">{cap.n}</div>
               <div class="an-cap-t">{cap.title}</div>
               <p class="an-cap-d">{cap.desc}</p>
+              {cap.cta && <a href={cap.cta.href} class="an-cap-cta">{cap.cta.label}</a>}
             </div>
           ))}
           <div class="an-cap-card an-cap-empty"></div>

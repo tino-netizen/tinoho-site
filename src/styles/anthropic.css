@@ -620,6 +620,20 @@ button { font-family: inherit; }
   line-height: 1.4;
   color: var(--slate-medium);
 }
+.an-cap-cta {
+  display: inline-block;
+  margin-top: 14px;
+  font-family: var(--sans);
+  font-size: var(--detail-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--slate-dark);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--slate-dark);
+  padding-bottom: 1px;
+  transition: opacity 0.15s;
+}
+.an-cap-cta:hover { opacity: 0.6; }
 
 /* COMPARISON */
 .an-compare {
